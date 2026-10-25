@@ -1,5 +1,5 @@
-from config.database import Database
-#khatamarrasyid_002
+from Config.database import Database
+#Saiful_F5212510026 
 
 class BukuModel:
     def _init_(self):
