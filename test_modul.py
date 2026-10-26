@@ -1,4 +1,4 @@
-from Models.buku_model import BukuModel
+from models.buku_model import BukuModel
 #Saiful_F5212510026
 
 model = BukuModel()

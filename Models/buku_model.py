@@ -1,8 +1,8 @@
-from Config.database import Database
-#Saiful_F5212510026 
+from config.database import Database
+from mysql.connector import Error
 
 class BukuModel:
-    def _init_(self):
+    def __init__(self):
         self.db = Database()
         self.conn = self.db.get_connection()
         self.table_name = "buku"
@@ -26,4 +26,33 @@ class BukuModel:
             self.conn.commit()
             cursor.close()
             return True
+        return False
+
+    def update_buku(self, id_buku, judul, penulis, tahun_terbit):
+        if self.conn:
+            try:
+                cursor = self.conn.cursor()
+                query = f"UPDATE {self.table_name} SET judul = %s, penulis = %s, tahun_terbit = %s WHERE id_buku = %s"
+                val = (judul, penulis, tahun_terbit, id_buku)
+                cursor.execute(query, val)
+                self.conn.commit()
+                cursor.close()
+                return True
+            except Error as e:
+                print(f"Gagal mengubah data: {e}")
+                return False
+        return False
+
+    def delete_buku(self, id_buku):
+        if self.conn:
+            try:
+                cursor = self.conn.cursor()
+                query = f"DELETE FROM {self.table_name} WHERE id_buku = %s"
+                cursor.execute(query, (id_buku,))
+                self.conn.commit()
+                cursor.close()
+                return True
+            except Error as e:
+                print(f"Gagal menghapus data: {e}")
+                return False
         return False
