@@ -19,7 +19,7 @@ class BukuView(tk.Tk):
         tk.Label(from_kiri, text="Form Data Buku", font=("Arial", 14, "bold")).pack(pady=10)
         
         # Komponen Input
-        tk.Label(from_kiri, text="Judul Buku", anchor="w").pack(fill="x")
+        tk.Label(from_kiri, text="Judul Buku", anchor="w").pack(fill="x")             
         self.entry_judul = tk.Entry(from_kiri, font=("Arial", 12), width=30)
         self.entry_judul.pack(pady=(0,10), fill="x")
 
@@ -27,7 +27,7 @@ class BukuView(tk.Tk):
         self.entry_penulis = tk.Entry(from_kiri, font=("Arial", 12), width=30)
         self.entry_penulis.pack(pady=(0,10), fill="x")
 
-        tk.Label(from_kiri, text="Tahun Terbit (1901 - 2155)", anchor="w").pack(fill="x")
+        tk.Label(from_kiri, text="Tahun Terbit", anchor="w").pack(fill="x")
         self.entry_tahun = tk.Entry(from_kiri, font=("Arial", 12), width=30)
         self.entry_tahun.pack(pady=(0,10), fill="x")
         
@@ -35,14 +35,18 @@ class BukuView(tk.Tk):
         self.btn_simpan = tk.Button(from_kiri, text="Simpan Data", fg="white", bg="green")
         self.btn_simpan.pack(pady=(20,5), fill="x")
 
-        self.btn_edit = tk.Button(from_kiri, text="Edit Data", fg="white", bg="#1e6fd9")
+        self.btn_edit = tk.Button(from_kiri, text="Perbarui Data (Update)", fg="white", bg="#1e6fd9")
         self.btn_edit.pack(pady=5, fill="x")
 
-        self.btn_hapus = tk.Button(from_kiri, text="Hapus Data", fg="white", bg="#d93025")
+        self.btn_hapus = tk.Button(from_kiri, text="Hapus Data (Delete)", fg="white", bg="#d93025")
         self.btn_hapus.pack(pady=5, fill="x")
 
         self.btn_reset = tk.Button(from_kiri, text="Bersihkan Form")
         self.btn_reset.pack(pady=5, fill="x")
+
+        # Tombol Logout (diletakkan di bagian bawah frame kiri)
+        self.btn_logout = tk.Button(from_kiri, text="Logout", fg="white", bg="#555555")
+        self.btn_logout.pack(side="bottom", pady=5, fill="x")
         
         # ===== FRAME KANAN: TABEL DAFTAR BUKU =====
         from_kanan = tk.Frame(self)

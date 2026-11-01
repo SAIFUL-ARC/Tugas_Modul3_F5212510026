@@ -19,13 +19,17 @@ class BukuModel:
 
     def create_buku(self, judul, penulis, tahun_terbit):
         if self.conn:
-            cursor = self.conn.cursor()
-            query = f"INSERT INTO {self.table_name} (judul, penulis, tahun_terbit) VALUES (%s, %s, %s)"
-            val = (judul, penulis, tahun_terbit)
-            cursor.execute(query, val)
-            self.conn.commit()
-            cursor.close()
-            return True
+            try:
+                cursor = self.conn.cursor()
+                query = f"INSERT INTO {self.table_name} (judul, penulis, tahun_terbit) VALUES (%s, %s, %s)"
+                val = (judul, penulis, tahun_terbit)
+                cursor.execute(query, val)
+                self.conn.commit()
+                cursor.close()
+                return True
+            except Error as e:
+                print(f"Gagal menyimpan data: {e}")
+                return False
         return False
 
     def update_buku(self, id_buku, judul, penulis, tahun_terbit):

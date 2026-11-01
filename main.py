@@ -1,7 +1,5 @@
-from controllers.buku_controller import BukuController
-from views.buku_view import BukuView
+from controllers.auth_controller import AuthController
 
 if __name__ == "__main__":
-    view = BukuView()
-    app = BukuController(view)
+    app = AuthController()
     app.run()

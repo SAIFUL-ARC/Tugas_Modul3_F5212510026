@@ -1,96 +1,71 @@
-import mysql.connector as mc
+# anggota_view.py
+import tkinter as tk
 from tkinter import ttk
-import customtkinter as ctk
 
-class Anggota(ctk.CTkFrame):
-    def __init__(self, master):
-        super().__init__(master)
-        
-        # Mengatur Grid Frame (1 Baris, 2 Kolom)
-        self.grid_columnconfigure(0, weight=3) # Kiri (form input)
-        self.grid_columnconfigure(1, weight=2) # Kanan (Tabel Data)
+class AnggotaView(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Aplikasi Manajemen Perpustakaan - Anggota")
+        self.geometry("700x600")
+
+        # Konfigurasi Grid Utama (1 Baris, 2 Kolom)
+        self.grid_columnconfigure(0, weight=1) # Kolom Kiri (Form)
+        self.grid_columnconfigure(1, weight=1) # Kolom Kanan (Tabel)
         self.grid_rowconfigure(0, weight=1)
-        
-        # FRAME KIRI: FORM INPUT DATA
-        self.frame_kiri = ctk.CTkFrame(self)
-        self.frame_kiri.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
-        
-        # Judul Form
-        self.label_form = ctk.CTkLabel(self.frame_kiri, text="Form Data Anggota", font=("Arial", 16, "bold"))
-        self.label_form.pack(pady=10)
-        
-        # Input Anggota
-        self.label_anggota = ctk.CTkLabel(self.frame_kiri, text="Nama Anggota", anchor="w")
-        self.label_anggota.pack(fill="x", padx=10, pady=(5,0))
-        self.entry_anggota = ctk.CTkEntry(self.frame_kiri, placeholder_text="Masukkan Nama Anggota")
-        self.entry_anggota.pack(fill="x", padx=10, pady=5)
-        
-        # Input Alamat
-        self.label_alamat = ctk.CTkLabel(self.frame_kiri, text="Alamat", anchor="w")
-        self.label_alamat.pack(fill="x", padx=10, pady=(5,0))
-        self.entry_alamat = ctk.CTkEntry(self.frame_kiri, placeholder_text="Masukkan Alamat")
-        self.entry_alamat.pack(fill="x", padx=10, pady=5)
-        
-        # Tombol Aksi 1 (Simpan)
-        self.btn_simpan = ctk.CTkButton(self.frame_kiri, text="Simpan Data", fg_color="green")
-        self.btn_simpan.pack(pady=20, padx=10, fill="x")
 
-        # Tombol Aksi 2 (Update) - Variabel diubah agar tidak menimpa tombol 1
-        self.btn_update = ctk.CTkButton(self.frame_kiri, text="Perbarui Data (Update)", fg_color="blue")
-        self.btn_update.pack(pady=20, padx=10, fill="x")
-        
-        # Tombol Aksi 3 (Hapus) - Variabel diubah agar tidak menimpa tombol sebelumnya
-        self.btn_hapus = ctk.CTkButton(self.frame_kiri, text="Hapus Data (Delete)", fg_color="red")
-        self.btn_hapus.pack(pady=20, padx=10, fill="x")
+        # ===== FRAME KIRI: FORMULIR INPUT =====
+        from_kiri = tk.Frame(self)
+        from_kiri.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
-        # FRAME KANAN: TABEL DATA ANGGOTA
-        self.frame_kanan = ctk.CTkFrame(self)
-        self.frame_kanan.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
-        
-        # Judul Tabel
-        self.label_tabel = ctk.CTkLabel(self.frame_kanan, text="Daftar Anggota Perpustakaan", font=("Arial", 16, "bold"))
-        self.label_tabel.pack(pady=10)
-        
-        # Komponen Tabel (Treeview dari tkinter standar)
-        kolom = ("ID Anggota", "Nama Anggota", "Alamat")
-        self.tabel = ttk.Treeview(self.frame_kanan, columns=kolom, show="headings", height=15)
-        
-        # Mengatur Header Tabel
-        for col in kolom:
-            self.tabel.heading(col, text=col)
-        
-        # Mengatur Lebar Kolom (Disesuaikan agar rapi seperti di gambar)
-        self.tabel.column("ID Anggota", width=80, anchor="center")
-        self.tabel.column("Nama Anggota", width=150)
-        self.tabel.column("Alamat", width=200)
-       
-        self.tabel.pack(fill="both", expand=True, padx=10, pady=10)
+        tk.Label(from_kiri, text="Form Data Anggota", font=("Arial", 14, "bold")).pack(pady=10)
 
-        # Memuat data dummy agar tampilan sesuai gambar
-        self.load_data()
+        # Komponen Input (label sesuai kolom tabel anggota di database)
+        # Catatan: id_anggota tidak diinput karena AUTO_INCREMENT (diisi otomatis oleh MySQL)
+        tk.Label(from_kiri, text="Nama Anggota", anchor="w").pack(fill="x")
+        self.entry_nama = tk.Entry(from_kiri, font=("Arial", 12), width=30)
+        self.entry_nama.pack(pady=(0,10), fill="x")
 
-    def load_data(self):
-        # Data dummy sesuai gambar yang Anda lampirkan
-        data_anggota = [
-            ("1", "Abdi", "Jl.Lagurutu"),
-            ("2", "Laode", "Perdos"),
-            ("3", "Tama", "Silae"),
-            ("4", "Adit", "Dayoada Pancing"),
-            ("5", "Ipul", "Tondo")
-        ]
-        
-        # Memasukkan data ke dalam tabel
-        for item in data_anggota:
-            self.tabel.insert("", "end", values=item)
+        # Kolom alamat bertipe TEXT di database, jadi memakai kotak teks beberapa baris
+        tk.Label(from_kiri, text="Alamat", anchor="w").pack(fill="x")
+        self.entry_alamat = tk.Text(from_kiri, font=("Arial", 12), width=30, height=4)
+        self.entry_alamat.pack(pady=(0,10), fill="x")
 
+        # Tombol Aksi
+        self.btn_simpan = tk.Button(from_kiri, text="Simpan Data", fg="white", bg="green")
+        self.btn_simpan.pack(pady=(20,5), fill="x")
 
-# --- Bagian Utama Program ---
-app = ctk.CTk()
-app.title("Sistem Manajemen Perpustakaan - Data Anggota") # Judul disesuaikan dengan gambar
-app.geometry("1080x600")
+        self.btn_edit = tk.Button(from_kiri, text="Edit Data", fg="white", bg="#1e6fd9")
+        self.btn_edit.pack(pady=5, fill="x")
 
-# Hanya buat satu instance frame Anggota, lalu tampilkan (pack)
-anggota_frame = Anggota(app)
-anggota_frame.pack(fill="both", expand=True) 
+        self.btn_hapus = tk.Button(from_kiri, text="Hapus Data", fg="white", bg="#d93025")
+        self.btn_hapus.pack(pady=5, fill="x")
 
-app.mainloop()
+        self.btn_reset = tk.Button(from_kiri, text="Bersihkan Form")
+        self.btn_reset.pack(pady=5, fill="x")
+
+        # ===== FRAME KANAN: TABEL DAFTAR ANGGOTA =====
+        from_kanan = tk.Frame(self)
+        from_kanan.grid(row=0, column=1, padx=10, pady=10, sticky="nsew")
+
+        tk.Label(from_kanan, text="Daftar Anggota Perpustakaan", font=("Arial", 14, "bold")).pack(pady=10)
+
+        # Komponen Tabel (Treeview dari tkinter ttk)
+        kolom = ("id_anggota", "nama", "alamat")
+        self.tabel = ttk.Treeview(from_kanan, columns=kolom, show="headings", height=15)
+
+        # Label Heading (urutan sama dengan kolom tabel di database)
+        self.tabel.heading("id_anggota", text="ID")
+        self.tabel.heading("nama", text="Nama Anggota")
+        self.tabel.heading("alamat", text="Alamat")
+
+        # Konfigurasi Lebar Kolom
+        self.tabel.column("id_anggota", width=50, anchor="center")
+        self.tabel.column("nama", width=150, anchor="w")
+        self.tabel.column("alamat", width=200, anchor="w")
+
+        self.tabel.pack(fill="both", expand=True, pady=10)
+
+# Blok eksekusi untuk menguji tampilan grafis
+if __name__ == "__main__":
+    app = AnggotaView()
+    app.mainloop()
