@@ -30,6 +30,5 @@ jobs:
         flake8 models/ controllers/ --count --select=E9,F63,F7,F82 --show-source --statistics
 
     - name: 5. Menjalankan Automated Unit Testing (Pytest)
-      env:
-        PYTHONPATH: .
-      run: python -m pytest -v
+      run: |
+        python -m pytest -v
